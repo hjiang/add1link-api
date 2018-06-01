@@ -24,8 +24,6 @@ const server = new GraphQLServer({
 
 server.express.use(cors());
 server.express.use(LC.express());
-server.express.use(LC.Cloud.HttpsRedirect());
-
 
 server.start({ port }, ({ port }) => {
   console.log(`Server is running on http://localhost:${port}`);
