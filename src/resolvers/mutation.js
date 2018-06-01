@@ -46,4 +46,22 @@ async function signUp(root, args) {
   }
 }
 
-module.exports = { saveLink, signUp };
+async function login(root, args) {
+  try {
+    const user = await LC.User.logIn(args.email, args.password);
+    return {
+      user: {
+        id: user.getObjectId(),
+        email: user.getEmail(),
+        name: user.getUsername()
+      },
+      token: user.getSessionToken()
+    };
+  } catch (err) {
+    // TODO: More fine-grained error handling
+    console.error(err);
+    throw new Error('ERROR_CREDENTIAL_REJECTED');
+  }
+}
+
+module.exports = { saveLink, signUp, login };
