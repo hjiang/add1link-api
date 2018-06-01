@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "cors": "^2.8.4",
