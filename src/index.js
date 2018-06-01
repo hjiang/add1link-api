@@ -19,6 +19,7 @@ const port = parseInt(process.env.PORT ||
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
+  context: req => req
 });
 
 server.express.use(cors());

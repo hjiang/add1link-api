@@ -1,13 +1,26 @@
 const LC = require('leanengine');
+const { getUser } = require('./utils');
 
-function saveLink(root, args) {
-  const link = {
-    id: 'link-id',
-    title: args.title,
-    url: args.url
+async function saveLink(root, args, ctx) {
+  const user = await getUser(ctx);
+  const Link = LC.Object.extend('Link');
+  const link = new Link();
+  link.set({
+    ...args,
+    user
+  });
+  const savedLink = await link.save();
+  return {
+    id: savedLink.getObjectId(),
+    url: savedLink.get('url'),
+    title: savedLink.get('title'),
+    user: {
+      id: user.getObjectId()  // TODO: get this from savedLink.
+    }
   };
-  return link;
 }
+
+// TODO: create resolvers for User
 
 const isBadPassword = (password) => password.length < 8;
 
