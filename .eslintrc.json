@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "node",
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:jest/recommended"
+  ],
+  "plugins": ["jest", "node"],
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "rules": {
+    "import/no-commonjs": 0,
+    "import/no-nodejs-modules": 0,
+    "no-console": 0,
+    "arrow-body-style": 0,
+    "no-else-return": 0,
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "node/exports-style": ["error", "module.exports"]
+  }
+}
