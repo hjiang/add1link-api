@@ -14,4 +14,11 @@ async function getUser(ctx) {
   }
 }
 
-module.exports = { getUser };
+function mapLinkToJson(link) {
+  return {
+    url: link.get('url'),
+    title: link.get('title')
+  };
+}
+
+module.exports = { getUser, mapLinkToJson };

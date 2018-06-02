@@ -1,6 +1,5 @@
 type Query {
-  info: String!
-  feed: [Link!]!
+  feed(beforeTimestamp: String, limit: Int): FeedPayload
 }
 
 type Mutation {
@@ -26,4 +25,9 @@ type User {
 type AuthPayload {
   token: String
   user: User
+}
+
+type FeedPayload {
+  links: [Link!]!
+  nextTimestamp: String!
 }
