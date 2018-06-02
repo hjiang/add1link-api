@@ -6,7 +6,7 @@ type Query {
 type Mutation {
   signUp(email: String!, password: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
-  saveLink(url: String!, title: String!): Link!
+  saveLink(url: String!, title: String): Link!
 }
 
 type Link {

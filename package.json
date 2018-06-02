@@ -12,7 +12,8 @@
     "cors": "^2.8.4",
     "graphql-yoga": "^1.14.6",
     "leancloud-storage": "^3.7.1",
-    "leanengine": "^3.2.0"
+    "leanengine": "^3.2.0",
+    "url-to-title": "^1.0.6"
   },
   "devDependencies": {
     "eslint": "^4.19.1",

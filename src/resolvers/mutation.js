@@ -1,5 +1,6 @@
 const LC = require('leanengine');
 const { getUser } = require('./utils');
+const title = require('url-to-title');
 
 function mapUserToJson(user) {
   return {
@@ -13,8 +14,10 @@ async function saveLink(root, args, ctx) {
   const user = await getUser(ctx);
   const Link = LC.Object.extend('Link');
   const link = new Link();
+  // TODO: fetching title should be asynchronous. But this is sufficient for a userbase of one.
   link.set({
     ...args,
+    title: args.title || await title(args.url),
     user
   });
   const savedLink = await link.save();
