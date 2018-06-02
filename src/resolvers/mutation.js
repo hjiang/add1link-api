@@ -1,6 +1,14 @@
 const LC = require('leanengine');
 const { getUser } = require('./utils');
 
+function mapUserToJson(user) {
+  return {
+    id: user.getObjectId(),
+    email: user.getEmail(),
+    name: user.getUsername()
+  };
+}
+
 async function saveLink(root, args, ctx) {
   const user = await getUser(ctx);
   const Link = LC.Object.extend('Link');
@@ -14,9 +22,7 @@ async function saveLink(root, args, ctx) {
     id: savedLink.getObjectId(),
     url: savedLink.get('url'),
     title: savedLink.get('title'),
-    user: {
-      id: user.getObjectId()  // TODO: get this from savedLink.
-    }
+    user: mapUserToJson(user)
   };
 }
 
@@ -37,11 +43,7 @@ async function signUp(root, args) {
   try {
     const savedUser = await user.signUp();
     return {
-      user: {
-        id: savedUser.getObjectId(),
-        email: savedUser.getEmail(),
-        name: savedUser.getUsername()
-      },
+      user: mapUserToJson(savedUser),
       token: savedUser.getSessionToken()
     };
   } catch (err) {

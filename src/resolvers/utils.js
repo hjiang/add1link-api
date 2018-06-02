@@ -1,7 +1,6 @@
 const LC = require('leanengine');
 
 async function getUser(ctx) {
-  console.log(ctx);
   const token = ctx.request.get('Authorization');
   if (!token) {
     throw new Error('ERROR_UNAUTHORIZED');
