@@ -20,13 +20,34 @@ async function saveLink(root, args, ctx) {
     title: args.title || await title(args.url),
     user
   });
-  const savedLink = await link.save();
-  return {
-    id: savedLink.getObjectId(),
-    url: savedLink.get('url'),
-    title: savedLink.get('title'),
-    user: mapUserToJson(user)
-  };
+  try {
+    const savedLink = await link.save();
+    return {
+      id: savedLink.getObjectId(),
+      url: savedLink.get('url'),
+      title: savedLink.get('title'),
+      user: mapUserToJson(user)
+    };
+  } catch (err) {
+    console.error('ERROR %d: %s', err.code, err);
+    throw new Error('ERROR_UNKNOWN');
+  }
+}
+
+async function deleteLink(root, args, ctx) {
+  const user = await getUser(ctx);
+  const link = LC.Object.createWithoutData('Link', args.id);
+  await link.fetch();
+  if (link.get('user').getObjectId() !== user.getObjectId()) {
+    throw new Error('ERROR_UNAUTHORIZED');
+  }
+  try {
+    await link.destroy();
+  } catch(err) {
+    console.error('ERROR %d: %s', err.code, err);
+    throw new Error('ERROR_UNKNOWN');
+  }
+  return args.id;
 }
 
 // TODO: create resolvers for User
@@ -51,15 +72,15 @@ async function signUp(root, args) {
     };
   } catch (err) {
     switch (err.code) {
-    case LC.Error.EMAIL_TAKEN:
-      throw new Error('ERROR_EMAIL_TAKEN');
-    case LC.Error.USERNAME_TAKEN:
-      throw new Error('ERROR_EMAIL_TAKEN');
-    case LC.Error.INVALID_EMAIL_ADDRESS:
-      throw new Error('ERROR_INVALID_EMAIL');
-    default:
-      console.error('ERROR %d: %s', err.code, err);
-      throw new Error('ERROR_UNKNOWN');
+      case LC.Error.EMAIL_TAKEN:
+        throw new Error('ERROR_EMAIL_TAKEN');
+      case LC.Error.USERNAME_TAKEN:
+        throw new Error('ERROR_EMAIL_TAKEN');
+      case LC.Error.INVALID_EMAIL_ADDRESS:
+        throw new Error('ERROR_INVALID_EMAIL');
+      default:
+        console.error('ERROR %d: %s', err.code, err);
+        throw new Error('ERROR_UNKNOWN');
     }
   }
 }
@@ -82,4 +103,4 @@ async function login(root, args) {
   }
 }
 
-module.exports = { saveLink, signUp, login };
+module.exports = { saveLink, signUp, login, deleteLink };

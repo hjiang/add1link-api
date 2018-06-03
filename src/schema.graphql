@@ -6,6 +6,7 @@ type Mutation {
   signUp(email: String!, password: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   saveLink(url: String!, title: String): Link!
+  deleteLink(id: ID!): ID!
 }
 
 type Link {
