@@ -25,7 +25,7 @@ const server = new GraphQLServer({
 server.express.use(cors());
 server.express.use(LC.express());
 
-server.start({ port }, ({ port }) => {
+server.start({ port, endpoint: '/graphql/' }, ({ port }) => {
   console.log(`Server is running on http://localhost:${port}`);
   process.on('uncaughtException', err => {
     console.error('Caught exception:', err.stack);
