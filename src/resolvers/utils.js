@@ -17,7 +17,8 @@ async function getUser(ctx) {
 function mapLinkToJson(link) {
   return {
     url: link.get('url'),
-    title: link.get('title')
+    title: link.get('title'),
+    id: link.getObjectId()
   };
 }
 
