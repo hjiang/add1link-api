@@ -1,5 +1,5 @@
 const LC = require('leanengine');
-const { getUser } = require('./utils');
+const { getUser, mapLinkToJson } = require('./utils');
 const title = require('url-to-title');
 
 function mapUserToJson(user) {
@@ -22,12 +22,7 @@ async function saveLink(root, args, ctx) {
   });
   try {
     const savedLink = await link.save();
-    return {
-      id: savedLink.getObjectId(),
-      url: savedLink.get('url'),
-      title: savedLink.get('title'),
-      user: mapUserToJson(user)
-    };
+    return mapLinkToJson(savedLink);
   } catch (err) {
     console.error('ERROR %d: %s', err.code, err);
     throw new Error('ERROR_UNKNOWN');

@@ -13,6 +13,7 @@ type Link {
   id: ID!
   title: String!
   url: String!
+  createdAt: String!
   user: User!
 }
 
