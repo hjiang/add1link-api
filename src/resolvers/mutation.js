@@ -47,7 +47,7 @@ async function deleteLink(root, args, ctx) {
 
 // TODO: create resolvers for User
 
-const isBadPassword = (password) => password.length < 8;
+const isBadPassword = (password) => password.length < 6;
 
 async function signUp(root, args) {
   const user = new LC.User();
