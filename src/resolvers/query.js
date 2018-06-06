@@ -22,4 +22,19 @@ async function feed(root, args, ctx) {
   };
 }
 
-module.exports = { feed };
+const search = async (root, args, ctx) => {
+  const { query, limit, sid } = args;
+  const user = await getUser(ctx);
+  const searchQuery = new LC.SearchQuery('Link');
+  searchQuery.queryString(`user.objectId:${user.getObjectId()} AND (${query})`);
+  searchQuery.limit(limit || 20);
+  if (sid) searchQuery.sid(sid);
+  const results = await searchQuery.find();
+  return {
+    links: results.map(link => mapLinkToJson(link)),
+    hasMore: searchQuery.hasMore(),
+    sid: searchQuery._sid
+  };
+};
+
+module.exports = { feed, search };

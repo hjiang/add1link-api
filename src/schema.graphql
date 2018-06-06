@@ -1,5 +1,6 @@
 type Query {
   feed(beforeTimestamp: String, limit: Int): FeedPayload
+  search(query: String!, limit: Int, sid: String): SearchPayload
 }
 
 type Mutation {
@@ -32,4 +33,10 @@ type AuthPayload {
 type FeedPayload {
   links: [Link!]!
   nextTimestamp: String!
+}
+
+type SearchPayload {
+  links: [Link!]!
+  sid: String
+  hasMore: Boolean
 }
