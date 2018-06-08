@@ -19,7 +19,8 @@ function mapLinkToJson(link) {
     url: link.get('url'),
     title: link.get('title'),
     id: link.getObjectId(),
-    createdAt: link.get('createdAt')
+    createdAt: link.get('createdAt'),
+    userTitle: link.get('userTitle')
   };
 }
 
