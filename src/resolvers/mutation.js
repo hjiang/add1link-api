@@ -24,8 +24,13 @@ async function saveLink(root, args, ctx) {
     const savedLink = await link.save();
     return mapLinkToJson(savedLink);
   } catch (err) {
-    console.error('ERROR %d: %s', err.code, err);
-    throw new Error('ERROR_UNKNOWN');
+    switch (err.code) {
+      case 137:
+        throw new Error('ERROR_LINK_ALREADY_EXISTS');
+      default:
+        console.error('ERROR %d: %s', err.code, err);
+        throw new Error('ERROR_UNKNOWN');
+    }
   }
 }
 
@@ -38,7 +43,7 @@ async function deleteLink(root, args, ctx) {
   }
   try {
     await link.destroy();
-  } catch(err) {
+  } catch (err) {
     console.error('ERROR %d: %s', err.code, err);
     throw new Error('ERROR_UNKNOWN');
   }
