@@ -63,8 +63,6 @@ async function deleteLink(root, args, ctx) {
   return args.id;
 }
 
-// TODO: create resolvers for User
-
 const isBadPassword = (password) => password.length < 6;
 
 async function signUp(root, args) {
