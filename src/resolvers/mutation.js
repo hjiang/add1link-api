@@ -2,6 +2,7 @@ const LC = require('leanengine');
 const { getUser, mapLinkToJson } = require('./utils');
 const fetchTitle = require('url-to-title');
 const validUrl = require('valid-url');
+const raven = require('raven');
 
 function mapUserToJson(user) {
   return {
@@ -41,6 +42,7 @@ async function saveLink(root, args, ctx) {
       case 137:
         throw new Error('ERROR_LINK_ALREADY_EXISTS');
       default:
+        raven.captureException(err);
         console.error('ERROR %d: %s', err.code, err);
         throw new Error('ERROR_UNKNOWN');
     }
@@ -57,6 +59,7 @@ async function deleteLink(root, args, ctx) {
   try {
     await link.destroy();
   } catch (err) {
+    raven.captureException(err);
     console.error('ERROR %d: %s', err.code, err);
     throw new Error('ERROR_UNKNOWN');
   }
@@ -90,6 +93,7 @@ async function signUp(root, args) {
       case LC.Error.INVALID_EMAIL_ADDRESS:
         throw new Error('ERROR_INVALID_EMAIL');
       default:
+        raven.captureException(err);
         console.error('ERROR %d: %s', err.code, err);
         throw new Error('ERROR_UNKNOWN');
     }

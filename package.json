@@ -13,6 +13,7 @@
     "graphql-yoga": "^1.14.6",
     "leancloud-storage": "^3.7.1",
     "leanengine": "^3.2.0",
+    "raven": "^2.6.2",
     "url-to-title": "^1.0.6",
     "valid-url": "^1.0.9"
   },

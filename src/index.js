@@ -1,14 +1,16 @@
 const { GraphQLServer } = require('graphql-yoga');
 const LC = require('leanengine');
 const cors = require('cors');
+const raven = require('raven');
 
 LC.init({
   appId: process.env.LEANCLOUD_APP_ID,
   appKey: process.env.LEANCLOUD_APP_KEY,
   masterKey: process.env.LEANCLOUD_APP_MASTER_KEY
 });
-
 LC.Cloud.useMasterKey();
+
+raven.config('https://301003ca66dc49bdb6510e2d9c3ea52a@sentry.io/1223081').install();
 
 const resolvers = require('./resolvers');
 
