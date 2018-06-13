@@ -2,6 +2,7 @@ const LC = require('leanengine');
 const { getUser, mapLinkToJson } = require('./utils');
 const fetchTitle = require('url-to-title');
 const raven = require('raven');
+const url = require('url');
 
 function mapUserToJson(user) {
   return {
@@ -16,8 +17,8 @@ async function saveLink(root, args, ctx) {
   const Link = LC.Object.extend('Link');
   const link = new Link();
   let [title, userTitle] = [null, args.title || null];
-  const url = new URL(args.url);
-  if (url.protocol === 'http' || url.protocol === 'https') {
+  const linkUrl = url.parse(args.url);
+  if (linkUrl.protocol === 'http' || linkUrl.protocol === 'https') {
     try {
       // TODO: This might block for a long time.
       title = await fetchTitle(args.url);
