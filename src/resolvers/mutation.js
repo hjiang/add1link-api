@@ -1,7 +1,6 @@
 const LC = require('leanengine');
 const { getUser, mapLinkToJson } = require('./utils');
 const fetchTitle = require('url-to-title');
-const validUrl = require('valid-url');
 const raven = require('raven');
 
 function mapUserToJson(user) {
@@ -17,12 +16,10 @@ async function saveLink(root, args, ctx) {
   const Link = LC.Object.extend('Link');
   const link = new Link();
   let [title, userTitle] = [null, args.title || null];
-  if (!validUrl.isUri(args.url)) {
-    throw new Error('ERROR_INVALID_URL');
-  }
-  if (validUrl.isWebUri(args.url)) {
+  const url = new URL(args.url);
+  if (url.protocol === 'http' || url.protocol === 'https') {
     try {
-      // TODO: fetching title should be asynchronous.
+      // TODO: This might block for a long time.
       title = await fetchTitle(args.url);
     } catch (error) {
       console.error(`Error fetching title for: ${args.url}`);
