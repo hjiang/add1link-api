@@ -18,7 +18,7 @@ async function saveLink(root, args, ctx) {
   const link = new Link();
   let [title, userTitle] = [null, args.title || null];
   const linkUrl = url.parse(args.url);
-  if (linkUrl.protocol === 'http' || linkUrl.protocol === 'https') {
+  if (linkUrl.protocol === 'http:' || linkUrl.protocol === 'https:') {
     try {
       // TODO: This might block for a long time.
       title = await fetchTitle(args.url);
